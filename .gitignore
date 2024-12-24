@@ -11,3 +11,6 @@ Cargo.lock
 
 # These are files for in-fs storage, cache, etc.
 /cache/
+
+# Dotenv file
+.env

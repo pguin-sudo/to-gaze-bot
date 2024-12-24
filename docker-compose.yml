@@ -1,0 +1,15 @@
+services:
+  to-gaze-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: to-gaze-bot
+    env_file:
+      .env
+    environment:
+      - RUST_LOG=${RUST_LOG}
+      - TG_TOKEN=${TG_TOKEN}
+    volumes:
+      - ./cache:/cache   
+    restart: unless-stopped
+
