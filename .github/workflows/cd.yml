@@ -1,0 +1,17 @@
+name: CD
+
+on:
+  workflow_dispatch
+
+env: 
+  CARGO_TERM_COLOR: always
+  TG_TOKEN: ${{ secrets.TG_TOKEN }}
+
+jobs:
+  deployment:
+    runs-on: self-hosted
+    environment: Deployment
+
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker-compose up -d --build
