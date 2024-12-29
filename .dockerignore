@@ -1,0 +1,15 @@
+# Cache
+.ruff_cache
+*.pyc
+__pycache__
+*-data
+
+# Environmental
+venv
+.venv
+
+# Secrets
+.env
+
+# Project
+cache/*
