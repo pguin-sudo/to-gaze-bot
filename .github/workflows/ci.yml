@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build_and_test:
+    name: Python project - latest
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Setup poetry
+        uses: abatilo/actions-poetry@v2
+
+      - name: Install project dependencies
+        run: poetry install --with dev      
+    
+      - name: Run Ruff
+        run: poetry run python -m ruff check to_gaze_bot --config pyproject.toml --output-format=github
+      
+      - name: Run PyRight
+        run: poetry run python -m pyright to_gaze_bot --verbose --project pyproject.toml
+
