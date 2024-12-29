@@ -1,7 +1,7 @@
 FROM python:3.13-slim-bullseye
 
 WORKDIR /app
-COPY pyproject.toml poetry.lock ./
+COPY pyproject.toml poetry.lock[t] ./
 
 RUN python -m pip install --no-cache-dir poetry==1.8.4
 RUN poetry config virtualenvs.create false 
