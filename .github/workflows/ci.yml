@@ -6,7 +6,7 @@ on:
 
 jobs:
   build_and_test:
-    name: Python project - latest
+    name: Build and test
     runs-on: ubuntu-latest
     
     steps:
@@ -28,4 +28,3 @@ jobs:
       
       - name: Run PyRight
         run: poetry run python -m pyright to_gaze_bot --verbose --project pyproject.toml
-

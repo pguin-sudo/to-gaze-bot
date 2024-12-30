@@ -5,14 +5,23 @@ on:
 
 jobs:
   deployment:
+    name: Deployment
     runs-on: self-hosted
     environment: Deployment
 
     steps:
-      - uses: actions/checkout@v4
+      - name: SSH and run commands
+        env:
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }} 
+        run: |
+          echo "$PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem 
 
-      - name: Create .env file from secrets
-        run: echo "${{secrets.DOT_ENV }}" > .env
-
-      - name: Start up docker 
-        run: docker-compose up -d --build
+          # Establish an SSH connection and execute commands on the remote server
+          ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} -p ${{ secrets.SSH_PORT }} <<EOF
+            cd /home/${{ secrets.SSH_USERNAME }}/${{ github.event.repository.name }}/
+            git checkout ${{ github.ref }}
+            git pull
+            echo "${{ secrets.DOT_ENV }}" > .env
+            docker-compose up -d --build
+          EOF
